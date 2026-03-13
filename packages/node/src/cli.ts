@@ -160,9 +160,11 @@ async function runSetup(): Promise<void> {
 
   console.log("");
 
-  // -- Agent config (only ask essential fields) --
-  const agentId = await ask(rl, "Agent ID", existing.agentId || "my-agent");
-  const agentName = await ask(rl, "Agent Name", existing.agentName || agentId);
+  // -- Agent config --
+  const agentId =
+    existing.agentId ||
+    (walletAddr ? `agent-${walletAddr.slice(0, 8).toLowerCase()}` : `agent-${Math.random().toString(36).slice(2, 10)}`);
+  const agentName = await ask(rl, "Agent Name", existing.agentName || "My Agent");
 
   const cfg: Record<string, any> = {
     agentId,
