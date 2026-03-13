@@ -125,11 +125,7 @@ async function runSetup(): Promise<void> {
   }
 
   // -- Wallet --
-  const walletName = await ask(
-    rl,
-    "Wallet name",
-    existing.solCliWalletName || "clawnet"
-  );
+  const walletName = existing.solCliWalletName || "clawnet";
   let walletAddr = getSolCliWalletAddress(walletName);
 
   if (walletAddr) {
@@ -149,46 +145,32 @@ async function runSetup(): Promise<void> {
 
   // -- Airdrop SOL --
   if (walletAddr && isSolCliInstalled()) {
-    console.log("");
-    const airdrop = await ask(rl, "Airdrop Devnet SOL? (y/n)", "y");
-    if (airdrop.toLowerCase() === "y") {
-      try {
-        execSync(`solana airdrop 2 ${walletAddr} --url devnet`, {
-          stdio: "pipe",
-        });
-        console.log("  ✓ 2 SOL airdropped");
-      } catch {
-        console.log(
-          "  ⚠ Airdrop failed (rate limited?). Visit https://faucet.solana.com"
-        );
-      }
+    console.log("  Requesting Devnet SOL airdrop...");
+    try {
+      execSync(`solana airdrop 2 ${walletAddr} --url devnet`, {
+        stdio: "pipe",
+      });
+      console.log("  ✓ 2 SOL airdropped");
+    } catch {
+      console.log(
+        "  ⚠ Airdrop failed (rate limited?). Visit https://faucet.solana.com"
+      );
     }
   }
 
   console.log("");
 
-  // -- Agent config --
+  // -- Agent config (only ask essential fields) --
   const agentId = await ask(rl, "Agent ID", existing.agentId || "my-agent");
   const agentName = await ask(rl, "Agent Name", existing.agentName || agentId);
-  const port = await ask(rl, "Port", String(existing.port || 3402));
-  const relayUrl = await ask(
-    rl,
-    "Relay URL",
-    existing.relayUrl || "wss://clawnet.pixstudio.art/api/"
-  );
-  const gatewayUrl = await ask(
-    rl,
-    "OpenClaw Gateway URL",
-    existing.openclawGatewayUrl || "http://localhost:18789"
-  );
 
   const cfg: Record<string, any> = {
     agentId,
     agentName,
-    port: parseInt(port, 10),
-    relayUrl,
+    port: existing.port || 3402,
+    relayUrl: existing.relayUrl || "wss://clawnet.pixstudio.art/api/",
     solCliWalletName: walletName,
-    openclawGatewayUrl: gatewayUrl,
+    openclawGatewayUrl: existing.openclawGatewayUrl || "http://localhost:18789",
     solanaRpcUrl: existing.solanaRpcUrl || "https://api.devnet.solana.com",
     facilitatorUrl: existing.facilitatorUrl || "https://x402.org/facilitator",
     defaultSkillPriceUsd: existing.defaultSkillPriceUsd || "0.01",
