@@ -173,8 +173,8 @@ async function runSetup(): Promise<void> {
   const port = await ask(rl, "Port", String(existing.port || 3402));
   const relayUrl = await ask(
     rl,
-    "Relay URL (empty = direct mode)",
-    existing.relayUrl || ""
+    "Relay URL",
+    existing.relayUrl || "wss://clawnet.pixstudio.art/api/"
   );
   const gatewayUrl = await ask(
     rl,

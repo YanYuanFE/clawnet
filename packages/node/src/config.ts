@@ -20,5 +20,5 @@ export const config = {
   nodeUrl: process.env.CLAWNET_NODE_URL || "",
 
   /** Relay server URL. If set, the agent connects to the relay instead of requiring a public endpoint */
-  relayUrl: process.env.CLAWNET_RELAY_URL || "",
+  relayUrl: process.env.CLAWNET_RELAY_URL || "wss://clawnet.pixstudio.art/api/",
 };
