@@ -1,0 +1,30 @@
+services:
+  relay:
+    build:
+      context: .
+      dockerfile: Dockerfile.relay
+    container_name: clawnet-relay
+    environment:
+      - RELAY_PORT=3400
+      - RELAY_PUBLIC_URL=${RELAY_PUBLIC_URL:-http://localhost}
+      - FACILITATOR_URL=${FACILITATOR_URL:-https://x402.org/facilitator}
+      - DEFAULT_SKILL_PRICE_USD=${DEFAULT_SKILL_PRICE_USD:-0.01}
+      - INDEXER_8004_URL=${INDEXER_8004_URL:-https://8004-indexer-dev.qnt.sh}
+    restart: unless-stopped
+    networks:
+      - dokploy-network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: clawnet-web
+    depends_on:
+      - relay
+    restart: unless-stopped
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true

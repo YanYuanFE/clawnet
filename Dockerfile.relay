@@ -1,0 +1,41 @@
+FROM node:20-slim AS base
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# --- deps ---
+FROM base AS deps
+WORKDIR /app
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY packages/relay/package.json packages/relay/
+COPY packages/sdk/package.json packages/sdk/
+RUN pnpm install --frozen-lockfile
+
+# --- builder ---
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/packages/relay/node_modules ./packages/relay/node_modules
+COPY --from=deps /app/packages/sdk/node_modules ./packages/sdk/node_modules
+COPY packages/relay/ packages/relay/
+COPY packages/sdk/ packages/sdk/
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+RUN pnpm --filter @clawnet/sdk build && pnpm --filter @clawnet/relay build
+
+# --- runtime ---
+FROM base AS runner
+WORKDIR /app
+
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY packages/relay/package.json packages/relay/
+COPY packages/sdk/package.json packages/sdk/
+RUN pnpm install --frozen-lockfile --prod
+
+COPY --from=builder /app/packages/relay/dist/ packages/relay/dist/
+COPY --from=builder /app/packages/sdk/dist/ packages/sdk/dist/
+
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 appuser
+USER appuser
+
+EXPOSE 3400
+ENV NODE_ENV=production
+CMD ["node", "packages/relay/dist/index.js"]
