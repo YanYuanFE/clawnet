@@ -103,7 +103,7 @@ export function createRoutes(agentManager: AgentManager): Hono {
   // ---------------------------------------------------------------------------
   // Health
   // ---------------------------------------------------------------------------
-  app.get("/health", (c) =>
+  app.get("/api/health", (c) =>
     c.json({
       status: "ok",
       service: "clawnet-relay",
@@ -115,7 +115,7 @@ export function createRoutes(agentManager: AgentManager): Hono {
   // ---------------------------------------------------------------------------
   // List agents — merges 8004 registry with live WebSocket connections
   // ---------------------------------------------------------------------------
-  app.get("/agents", async (c) => {
+  app.get("/api/agents", async (c) => {
     const [registryAgents, connectedAgents] = await Promise.all([
       fetchRegistryAgents(),
       Promise.resolve(agentManager.list()),
@@ -136,7 +136,7 @@ export function createRoutes(agentManager: AgentManager): Hono {
   // ---------------------------------------------------------------------------
   // Single agent info
   // ---------------------------------------------------------------------------
-  app.get("/agents/:agentId", (c) => {
+  app.get("/api/agents/:agentId", (c) => {
     const agentId = c.req.param("agentId");
     const agent = agentManager.get(agentId);
     if (!agent) {
@@ -152,7 +152,7 @@ export function createRoutes(agentManager: AgentManager): Hono {
   // The x402 middleware is applied dynamically: we look up the agent's wallet
   // address and use it as payTo so USDC flows directly to the agent.
   // ---------------------------------------------------------------------------
-  app.post("/agents/:agentId/skills/:skillId/invoke", async (c, next) => {
+  app.post("/api/agents/:agentId/skills/:skillId/invoke", async (c, next) => {
     const agentId = c.req.param("agentId");
     const agent = agentManager.get(agentId);
     if (!agent) {

@@ -11,9 +11,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/relay": {
+      "/api": {
         target: "http://localhost:3400",
-        rewrite: (path) => path.replace(/^\/relay/, ""),
       },
     },
   },

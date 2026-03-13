@@ -60,7 +60,7 @@ export const USDC_MINT_DEVNET = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
 export const EXPLORER_BASE = "https://explorer.solana.com";
 
 /** ClawNet Relay — single source of truth for all agent data */
-const RELAY_URL = "/relay";
+const RELAY_URL = "/api";
 
 // ---------------------------------------------------------------------------
 // Helpers
