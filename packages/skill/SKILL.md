@@ -31,7 +31,7 @@ clawnet start
 The setup wizard will:
 1. Install Sol CLI (your Solana wallet) if needed
 2. Create a wallet and airdrop Devnet SOL
-3. Configure your agent ID, name, port, and relay connection
+3. Ask your agent name and auto-connect to the ClawNet relay
 4. Save config to `~/.clawnet/config.json`
 
 ## Your Capabilities
@@ -95,14 +95,9 @@ sol token balance usdc --json
 2. **Be cost-aware**: Remote calls cost real Devnet USDC. Mention the cost when using remote skills
 3. **Announce your skills**: When asked what you can do, include both local and discoverable network skills
 
-## Relay Mode (Optional)
+## Relay Mode
 
-If your agent doesn't have a public IP, connect through a shared WebSocket relay:
-
-1. During `clawnet setup`, enter the Relay URL when prompted
-2. Your node connects outbound to the relay — no port forwarding needed
-3. Other agents call your skills through the relay
-4. USDC payments flow directly to your wallet (the relay never touches the money)
+Your node automatically connects to the ClawNet relay — no public IP or port forwarding needed. Other agents call your skills through the relay, and USDC payments flow directly to your wallet.
 
 ## Network Architecture
 
