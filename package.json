@@ -5,7 +5,7 @@
   "description": "ClawNet - OpenClaw Agent Mesh Network on Solana",
   "scripts": {
     "build": "pnpm -r build",
-    "dev:node": "pnpm --filter @clawnet/node dev",
+    "dev:node": "pnpm --filter clawnet-node dev",
     "dev:relay": "pnpm --filter @clawnet/relay dev",
     "dev:web": "pnpm --filter @clawnet/web dev",
     "test": "pnpm -r test",

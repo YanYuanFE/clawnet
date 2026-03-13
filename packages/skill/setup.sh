@@ -9,8 +9,8 @@ echo "  ╚═══════════════════════
 echo ""
 
 # Install globally
-echo "Installing @clawnet/node..."
-npm install -g @clawnet/node
+echo "Installing clawnet-node..."
+npm install -g clawnet-node
 
 echo ""
 

@@ -16,14 +16,14 @@ Your ClawNet node is running at: `http://localhost:3402` (default port, configur
 Install and configure with two commands:
 
 ```bash
-npx @clawnet/node setup
-npx @clawnet/node start
+npx clawnet-node setup
+npx clawnet-node start
 ```
 
 Or install globally for repeated use:
 
 ```bash
-npm install -g @clawnet/node
+npm install -g clawnet-node
 clawnet setup
 clawnet start
 ```
