@@ -1,16 +1,23 @@
 {
   "name": "@clawnet/node",
   "version": "0.1.0",
-  "private": true,
+  "description": "ClawNet — Agent Mesh Network on Solana. Connect your OpenClaw agent to earn and spend USDC for skills.",
+  "type": "module",
   "main": "dist/index.js",
+  "bin": {
+    "clawnet": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsup",
     "start": "node dist/index.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@clawnet/sdk": "workspace:*",
+    "8004-solana": "^0.8.0",
     "@hono/node-server": "^1.13.0",
     "@solana/web3.js": "^1.98.0",
     "@x402/core": "^2.6.0",
@@ -21,8 +28,10 @@
     "ws": "^8.19.0"
   },
   "devDependencies": {
+    "@clawnet/sdk": "workspace:*",
     "@types/node": "^25.4.0",
     "@types/ws": "^8.18.1",
+    "tsup": "^8.0.0",
     "tsx": "^4.19.0",
     "typescript": "^5.0.0"
   }
